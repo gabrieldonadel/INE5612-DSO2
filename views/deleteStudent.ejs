@@ -1,0 +1,11 @@
+
+<%- contentFor('body') %>
+<h1>Você realmente deseja excluir este aluno?</h1>
+<form method="post" action="/register/<%=(aluno.matricula ? aluno.matricula : '')%>">
+    
+    Matrícula: <%= aluno.matricula %><br />
+    Nome: <%=aluno.nome %><br/>
+</form>
+<a href="/">Cancelar</a>
+<input type="submit" value="Excluir" />
+

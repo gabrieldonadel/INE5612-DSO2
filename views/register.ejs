@@ -1,0 +1,19 @@
+<%- contentFor('body') %>
+<h1>Registro</h1>
+<form
+  method="post"
+  action="/aluno/register/<%=(aluno.matricula ? aluno.matricula : '')%>"
+>
+  <% if (aluno.matricula) { %> Matrícula: <%= aluno.matricula %><br />
+  <% } else { %> Matrícula:
+  <input
+    type="text"
+    pattern=".{8,8}"
+    title="O Número da matricula deve conter oito números"
+    required
+    name="matricula"
+  /><br />
+  <% } %> Nome: <input type="text" name="nome" value="<%=aluno.nome %>" /><br />
+  <input type="submit" value="Enviar" />
+</form>
+<a href="/">Voltar</a>
