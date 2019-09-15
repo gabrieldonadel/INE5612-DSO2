@@ -1,10 +1,24 @@
-
 <%- contentFor('body') %>
 <h1>Registrar Disciplina</h1>
-<form method="post" action="/register/disciplina">
-    Código: <input type="text" name="matricula" /><br/>
-    Nome: <input type="text" name="nome" /><br/>
-    Horários: <input type="text" /><br/>  
-<input type="submit" value="Enviar" />
+<form
+  method="post"
+  action="/disciplina/register<%=(subject.codigo ? subject.codigo : '')%>"
+>
+  Código: <input type="text" name="codigo" /><br />
+  Nome: <input type="text" name="nome" /><br />
+  Horários: <input type="text" /><br />
+  Duração da Aula: <input type="number" name="duracao" min="1" max="4" /><br />
+  Hora de Inicio: <input type="number" name="inicio" min="1" max="4" /><br />
+  <input type="checkbox" id="scales" name="scales" />
+  <label for="scales">Segunda feira</label>
+  <input type="checkbox" id="scales" name="scales" />
+  <label for="scales">Terça feira</label>
+  <input type="checkbox" id="scales" name="scales" />
+  <label for="scales">Quarta feira</label>
+  <input type="checkbox" id="scales" name="scales" />
+  <label for="scales">Quinta feira</label>
+  <input type="checkbox" id="scales" name="scales" />
+  <label for="scales">Sexta feira</label>
+  <input type="submit" value="Enviar" />
 </form>
 <a href="/">Voltar</a>

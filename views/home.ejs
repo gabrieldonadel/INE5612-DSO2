@@ -1,11 +1,35 @@
 <%- contentFor('body') %>
 <h1>Disciplinas</h1>
+<div class="disciplinas">
+  <% subjects.forEach(function(subject) { %>
+  <div class="disciplina">
+    <h3><%= subject.nome %></h3>
+    <p>(<%= subject.codigo %>)</p>
+    <a
+      class="btn btn-primary"
+      role="button"
+      aria-disabled="true"
+      href="/aluno/register/<%=subject.matricula%>"
+    >
+      editar
+    </a>
+    <a
+      class="btn btn-danger"
+      role="button"
+      aria-disabled="true"
+      href="/aluno/delete/<%= subject.matricula%>"
+    >
+      excluir
+    </a>
+  </div>
+  <% }); %>
+</div>
 <a class="btn btn-success" href="/disciplina/register"
   >Registrar nova disciplina</a
 >
 <h1>Alunos</h1>
 <div class="alunos">
-  <% lista.forEach(function(aluno) { %>
+  <% students.forEach(function(aluno) { %>
   <div class="aluno">
     <h3><%= aluno.nome %></h3>
     <p>(<%= aluno.matricula %>)</p>

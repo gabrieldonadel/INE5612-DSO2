@@ -1,37 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title><%=title %></title>
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <style>
-   .alunos{
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-grid-gap: 10px;
-
-}
-.aluno{
-background-color: #f8f8f8;
-text-align: center;
-border: 1px solid #DADADA;
-border-radius: 8px;
-padding: 5px;
-}
- </style>
-</head>
-<body>
-  <main>
-    <div class="container">
-      <%- body %>
-    </div>
-  </main> 
-  <footer>
-    <div class="container text-center">
-      INE 5612 - NodeJS e MongoDB
-    </div>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title><%=title %></title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <style>
+      .alunos,
+      .disciplinas {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+      }
+      .aluno,
+      .disciplina {
+        background-color: #f8f8f8;
+        text-align: center;
+        border: 1px solid #dadada;
+        border-radius: 8px;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <%- body %>
+      </div>
+    </main>
+    <footer>
+      <div class="container text-center">
+        INE 5612 - NodeJS e MongoDB
+      </div>
+    </footer>
+  </body>
 </html>
-
-

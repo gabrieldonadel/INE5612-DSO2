@@ -1,6 +1,7 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const studentController = require("./controllers/student");
+const subjectController = require("./controllers/subject");
 
 var app = express();
 app.set("view engine", "ejs");
@@ -17,14 +18,22 @@ app.get("/", function(req, res) {
     .db(dbName)
     .collection("alunos")
     .find({})
-    .toArray(function(err, alunos) {
-      res.render("home", { title: "Home", lista: alunos });
+    .toArray(function(err, students) {
+      client
+        .db(dbName)
+        .collection("disciplinas")
+        .find({})
+        .toArray(function(err, subjects) {
+          console.log(subjects);
+
+          res.render("home", { title: "Home", students, subjects });
+        });
     });
 });
 
 app.use("/aluno", studentController);
 
-app.use("/disciplina", studentController);
+app.use("/disciplina", subjectController);
 
 client.connect(function(err, db) {
   app.listen(port, function() {

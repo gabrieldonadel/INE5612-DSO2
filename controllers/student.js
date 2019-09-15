@@ -4,32 +4,6 @@ const client = require("./dbConnection");
 
 const dbName = "ine5612";
 
-router.get("/delete/:matricula", (req, res) => {
-  client
-    .db(dbName)
-    .collection("alunos")
-    .findOne({ matricula: req.params.matricula })
-    .then(function(aluno) {
-      if (!aluno) {
-        res.sendStatus(404);
-      } else {
-        res.render("deleteStudent", {
-          title: "Excluir aluno",
-          aluno: aluno
-        });
-      }
-    });
-});
-
-router.delete("/delete/:matricula?", function(req, res) {
-  console.log("Entrei");
-  client
-    .db(dbName)
-    .collection("alunos")
-    .deleteOne({ matricula: matricula });
-  res.redirect("/");
-});
-
 router.get("/register", function(req, res) {
   //Este handler serve para registar um novo aluno.
   //Desta forma, passamos um objeto aluno vazio para
@@ -117,6 +91,32 @@ router.post("/register/:matricula?", function(req, res) {
         }
       );
   }
+});
+
+router.get("/delete/:matricula", (req, res) => {
+  client
+    .db(dbName)
+    .collection("alunos")
+    .findOne({ matricula: req.params.matricula })
+    .then(function(aluno) {
+      if (!aluno) {
+        res.sendStatus(404);
+      } else {
+        res.render("deleteStudent", {
+          title: "Excluir aluno",
+          aluno: aluno
+        });
+      }
+    });
+});
+
+router.delete("/delete/:matricula", function(req, res) {
+  console.log("Entrei");
+  client
+    .db(dbName)
+    .collection("alunos")
+    .deleteOne({ matricula: matricula });
+  res.redirect("/");
 });
 
 module.exports = router;
