@@ -31,11 +31,6 @@ async function getStudent(matricula) {
 }
 
 router.get("/register", async function(req, res) {
-  //Este handler serve para registar um novo aluno.
-  //Desta forma, passamos um objeto aluno vazio para
-  //a view.
-  const subjects = await getSubjects();
-
   client
     .db(dbName)
     .collection("disciplinas")
@@ -51,11 +46,6 @@ router.get("/register", async function(req, res) {
 });
 
 router.get("/register/:matricula", async (req, res) => {
-  //Este handler serve para alterar um aluno, e recebe
-  //a matrícula como parâmetro. É feita uma consulta no banco
-  //e, caso não encontre aluno com essa matrícula, retorna
-  //erro 404. Senão, retorna a view passando o aluno
-  //encontrado
   try {
     let subjects = await getSubjects();
     let student = await getStudent(req.params.matricula);
@@ -221,6 +211,54 @@ router.post("/register/:matricula?", async function(req, res) {
       return;
     }
 
+//
+  
+  const subjects = await getSubjects();
+  const mappedSubjects = subjects.map(subject => {
+    let add = false;
+    disciplinas.forEach(e => {
+      if (e == subject.codigo) {
+        add = true;
+      }
+    });
+    if (add) {
+      return subject;
+    }
+    return null;
+  });
+
+  const filteredSubjects = mappedSubjects.filter(subj => subj);
+
+  let checkSubkects = [...filteredSubjects];
+
+  let conflictMessage = "";
+  let conflict = false;
+
+  for (let i = 0; i < checkSubkects.length; i++) {
+    for (let j = i + 1; j < checkSubkects.length; j++) {
+      //compara uma disciplina com a outra
+      let conf = compareSubjects(checkSubkects[i], checkSubkects[j]);
+      if (conf) {
+        conflictMessage += ` ${checkSubkects[i].codigo} e ${checkSubkects[j].codigo}`;
+        conflict = true;
+      }
+      console.log("teve conflito? ", conflict);
+    }
+  }
+
+  if (conflict) {
+    res.render("register", {
+      title: "Alterar aluno",
+      aluno: { nome: nome, matricula: "", disciplinas: disciplinas },
+      err:
+        "Choque de horario detectado! as seguintes disciplinas estâo em conflito:" +
+        conflictMessage,
+      subjects
+    });
+    return;
+  }
+
+//
     newStudent(nome, matricula, disciplinas, res);
   } else {
     if (!nome) {
