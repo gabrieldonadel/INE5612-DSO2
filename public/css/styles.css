@@ -1,0 +1,42 @@
+.alunos,
+.disciplinas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  margin: 20px auto;
+}
+.aluno,
+.disciplina {
+  background-color: #f8f8f8;
+  text-align: center;
+  border: 1px solid #dadada;
+  border-radius: 8px;
+  padding: 5px;
+}
+.dia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+.dia input {
+  margin-bottom: 10px;
+}
+.semana {
+  display: flex;
+  flex-direction: row;
+}
+.dia-descricao {
+  display: flex;
+  flex-direction: column;
+  margin-top: 55px;
+}
+.dia-descricao label {
+  margin-bottom: 10px;
+}
+.option {
+  margin-bottom: 10px;
+}
+.enviar {
+  margin: 20px auto;
+}

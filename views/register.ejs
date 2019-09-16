@@ -3,26 +3,34 @@
   <%=err %>
 </div>
 <% } %>
-<h1>Registro</h1>
+<h1><%=(aluno.matricula ? 'Alterar Aluno' : 'Registrar Aluno')%></h1>
 <form
   method="post"
   action="/aluno/register/<%=(aluno.matricula ? aluno.matricula : '')%>"
 >
   <% if (aluno.matricula) { %> Matrícula: <%= aluno.matricula %><br />
-  <% } else { %> Matrícula:
+  <% } else { %> 
+    <label for="matricula">Matrícula:</label>
   <input
     type="text"
     pattern=".{8,8}"
+    class="form-control"
     title="O Número da matricula deve conter oito números"
     required
+    id="matricula"
     name="matricula"
   /><br />
-  <% } %> Nome: <input type="text" name="nome" value="<%=aluno.nome %>" /><br />
+  
+  <% } %> 
+  <div class="form-group">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" class="form-control" name="nome" value="<%=aluno.nome %>" required/>
+  </div>
   <h2>Disciplinas</h2>
   <script src="/js/jquery.multi-select.js" type="text/javascript"></script>
   <select multiple="multiple" id="my-select" name="disciplinas[]">
     <% subjects.forEach(subject => { %>
-    <option value="<%=subject.codigo%>" <%= subject.selected ? "selected" : ""%>><%=subject.codigo%></option>
+    <option value="<%=subject.codigo%>" <%= subject.selected ? "selected" : ""%> ><%=subject.codigo%></option>
     <% }) %>
   </select>
   <script> 
@@ -31,6 +39,6 @@
   selectionHeader: "<div class='custom-header'>Escolhidas</div>"
 });
   </script>
-  <input type="submit" value="Enviar" />
+  <input type="submit" class="btn btn-success enviar" value="Enviar" />
 </form>
 <a href="/">Voltar</a>
