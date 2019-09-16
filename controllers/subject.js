@@ -10,6 +10,22 @@ router.get("/register", (req, res) => {
   });
 });
 
+router.get("/register/:codigo", (req, res) => {
+  client
+    .db(dbName)
+    .collection("disciplinas")
+    .findOne({ codigo: req.params.codigo })
+    .then(subject => {
+      if (!subject) res.sendStatus(404);
+      else {
+        res.render("registerDisciplina", {
+          title: "Alterar disciplina",
+          subject
+        });
+      }
+    });
+});
+
 router.post("/register/:codigo?", function(req, res) {
   if (!req.params.codigo) {
     var codigo = req.body.codigo;

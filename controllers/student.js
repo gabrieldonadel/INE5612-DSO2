@@ -110,12 +110,11 @@ router.get("/delete/:matricula", (req, res) => {
     });
 });
 
-router.delete("/delete/:matricula", function(req, res) {
-  console.log("Entrei");
+router.post("/delete/:matricula", function(req, res) {
   client
     .db(dbName)
     .collection("alunos")
-    .deleteOne({ matricula: matricula });
+    .deleteOne({ matricula: req.params.matricula });
   res.redirect("/");
 });
 
