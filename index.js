@@ -7,6 +7,7 @@ var app = express();
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.use(express.urlencoded());
+app.use(express.static(__dirname + "/public"));
 
 const client = require("./controllers/dbConnection");
 
@@ -24,8 +25,6 @@ app.get("/", function(req, res) {
         .collection("disciplinas")
         .find({})
         .toArray(function(err, subjects) {
-          console.log(subjects);
-
           res.render("home", { title: "Home", students, subjects });
         });
     });

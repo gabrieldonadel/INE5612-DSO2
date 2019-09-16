@@ -18,6 +18,19 @@
     name="matricula"
   /><br />
   <% } %> Nome: <input type="text" name="nome" value="<%=aluno.nome %>" /><br />
+  <h2>Disciplinas</h2>
+  <script src="/js/jquery.multi-select.js" type="text/javascript"></script>
+  <select multiple="multiple" id="my-select" name="disciplinas[]">
+    <% subjects.forEach(subject => { %>
+    <option value="<%=subject.codigo%>" <%= subject.selected ? "selected" : ""%>><%=subject.codigo%></option>
+    <% }) %>
+  </select>
+  <script> 
+    $('#my-select').multiSelect({
+  selectableHeader: "<div class='custom-header'>Disponiveis</div>",
+  selectionHeader: "<div class='custom-header'>Escolhidas</div>"
+});
+  </script>
   <input type="submit" value="Enviar" />
 </form>
 <a href="/">Voltar</a>
