@@ -1,3 +1,12 @@
+*{
+  font-family: 'Lato', sans-serif;
+}
+body{
+  background: #f1f1f1
+}
+.container{
+  position: relative;
+}
 .alunos,
 .disciplinas {
   display: grid;
@@ -39,4 +48,56 @@
 }
 .enviar {
   margin: 20px auto;
+}
+.context{
+  margin-top: 50px;
+  padding: 10px 20px;
+  border: 2px solid gray;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.text-center{
+  margin-top: 50px ;
+  margin-bottom: 50px ;
+}
+.input-group-addon{
+  width: 100px;
+}
+.input-group{
+  margin-bottom: 10px;
+}
+.voltar{
+  margin-left: 30px;
+}
+.register-disciplina{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.input-group .form-control{
+  width: 500px;
+}
+.buttons{
+  margin-left: 40%;
+}
+.title{
+  margin-bottom: 40px;
+}
+.custom-header{
+  border: 2px solid #eaeaea;
+  text-align: center;
+}
+.custom-header span{
+  font-weight: 900;
+  font-size: 16px;
+} 
+.ms-list{
+  text-align: center;
+  border: 2px solid #eaeaea;
+}
+
+.register-student-context{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

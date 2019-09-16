@@ -1,45 +1,54 @@
 <%- contentFor('body') %>
-<h1>Disciplinas</h1>
-<div class="disciplinas">
-  <% subjects.forEach(function(subject) { %>
-  <div class="disciplina">
-    <h3><%= subject.nome %></h3>
-    <p>(<%= subject.codigo %>)</p>
-    <a
-      class="btn btn-primary"
-      role="button"
-      aria-disabled="true"
-      href="/disciplina/register/<%=subject.codigo%>"
-    >
-      editar
-    </a>
-    <a
-      class="btn btn-danger"
-      role="button"
-      aria-disabled="true"
-      href="/disciplina/delete/<%= subject.codigo%>"
-    >
-      excluir
-    </a>
+<div class="context">
+  <div class="nav">
+      <h1>Disciplinas</h1>
+      <a class="btn btn-success" href="/disciplina/register">Registrar nova disciplina</a>
   </div>
-  <% }); %>
+
+  <div class="disciplinas">
+    <% subjects.forEach(function(subject) { %>
+    <div class="disciplina">
+      <h3><%= subject.nome %></h3>
+      <p><%= subject.codigo %></p>
+      <a
+        class="btn btn-primary"
+        role="button"
+        aria-disabled="true"
+        href="/disciplina/register/<%=subject.codigo%>"
+      >
+        Editar
+      </a>
+      <a
+        class="btn btn-danger"
+        role="button"
+        aria-disabled="true"
+        href="/disciplina/delete/<%= subject.codigo%>"
+      >
+        Excluir
+      </a>
+    </div>
+    <% }); %>
+  </div>
+</div>  
+
+<div class="context">
+<div class="nav"> 
+  <h1>Alunos</h1>
+  <a class="btn btn-success" href="/aluno/register">Registrar novo aluno </a>
 </div>
-<a class="btn btn-success" href="/disciplina/register"
-  >Registrar nova disciplina</a
->
-<h1>Alunos</h1>
+
 <div class="alunos">
   <% students.forEach(function(aluno) { %>
   <div class="aluno">
     <h3><%= aluno.nome %></h3>
-    <p>(<%= aluno.matricula %>)</p>
+    <p><%= aluno.matricula %></p>
     <a
       class="btn btn-primary"
       role="button"
       aria-disabled="true"
       href="/aluno/register/<%=aluno.matricula%>"
     >
-      editar
+      Editar
     </a>
     <a
       class="btn btn-danger"
@@ -47,9 +56,9 @@
       aria-disabled="true"
       href="/aluno/delete/<%= aluno.matricula%>"
     >
-      excluir
+      Excluir
     </a>
   </div>
   <% }); %>
 </div>
-<a class="btn btn-success" href="/aluno/register">Registrar novo aluno </a>
+

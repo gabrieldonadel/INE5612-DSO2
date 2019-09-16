@@ -3,42 +3,49 @@
   <%=err %>
 </div>
 <% } %>
-<h1><%=(aluno.matricula ? 'Alterar Aluno' : 'Registrar Aluno')%></h1>
-<form
-  method="post"
-  action="/aluno/register/<%=(aluno.matricula ? aluno.matricula : '')%>"
->
-  <% if (aluno.matricula) { %> Matrícula: <%= aluno.matricula %><br />
-  <% } else { %> 
-    <label for="matricula">Matrícula:</label>
-  <input
-    type="text"
-    pattern=".{8,8}"
-    class="form-control"
-    title="O Número da matricula deve conter oito números"
-    required
-    id="matricula"
-    name="matricula"
-  /><br />
-  
-  <% } %> 
-  <div class="form-group">
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" class="form-control" name="nome" value="<%=aluno.nome %>" required/>
-  </div>
-  <h2>Disciplinas</h2>
-  <script src="/js/jquery.multi-select.js" type="text/javascript"></script>
-  <select multiple="multiple" id="my-select" name="disciplinas[]">
-    <% subjects.forEach(subject => { %>
-    <option value="<%=subject.codigo%>" <%= subject.selected ? "selected" : ""%> ><%=subject.codigo%></option>
-    <% }) %>
-  </select>
-  <script> 
-    $('#my-select').multiSelect({
-  selectableHeader: "<div class='custom-header'>Disponiveis</div>",
-  selectionHeader: "<div class='custom-header'>Escolhidas</div>"
-});
-  </script>
-  <input type="submit" class="btn btn-success enviar" value="Enviar" />
+<h1 class="title"><%=(aluno.matricula ? 'Alterar Aluno' : 'Registrar Aluno')%></h1>
+<form method="post" action="/aluno/register/<%=(aluno.matricula ? aluno.matricula : '')%>">
+  <div class="register-student-context">
+    <div class="fields">
+        <div class="input-group">
+            <span class="input-group-addon"> Matricula %></span>
+            <input 
+              class="form-control" 
+              type="text" 
+              pattern=".{8,8}" 
+              title="O Número da matricula deve conter oito números" 
+              id="matricula"
+              name="matricula" 
+              value="<%=(aluno.matricula ? aluno.matricula : '')%>"
+              <%= aluno.matricula ? "disabled" : ""%>
+            >
+          </div>
+          
+          <div class="input-group">
+            <span class="input-group-addon" >Nome</span>
+            <input class="form-control" type="text" name="nome" required value="<%=(aluno.nome ? aluno.nome : '')%>"/>
+          </div>
+    </div>
+ 
+    <div class="select-disciplinas">
+      <h2>Disciplinas</h2>
+      <script src="/js/jquery.multi-select.js" type="text/javascript"></script>
+      <select multiple="multiple" id="my-select" name="disciplinas[]">
+        <% subjects.forEach(subject => { %>
+        <option value="<%=subject.codigo%>" <%= subject.selected ? "selected" : ""%> ><%=subject.codigo%></option>
+        <% }) %>
+      </select>
+      <script> 
+        $('#my-select').multiSelect({
+          selectableHeader: "<div class='custom-header'><span>Disponiveis</span></div>",
+          selectionHeader: "<div class='custom-header'><span>Escolhidas</span></div>"
+        });
+      </script>
+    </div>  
+    <div class="buttonss">
+      <input type="submit" class="btn btn-success enviar" value="Enviar" />
+      <a class="btn btn-default voltar" role="button" href="/">Voltar</a>
+    </div>
+  </div>  
+
 </form>
-<a href="/">Voltar</a>

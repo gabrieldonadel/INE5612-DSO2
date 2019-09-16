@@ -1,8 +1,26 @@
 <%- contentFor('body') %>
 <h1>Você realmente deseja excluir este aluno?</h1>
 <form method="post" action="/aluno/delete/<%=aluno.matricula %>">
-  Matrícula: <%= aluno.matricula %><br />
-  Nome: <%=aluno.nome %><br />
-  <input type="submit" value="Excluir" />
+  <div class="fields">
+      <div class="input-group">
+          <span class="input-group-addon"> Matricula %></span>
+          <input 
+            class="form-control" 
+            type="text" 
+            name="matricula" 
+            value="<%=aluno.matricula%>"
+          disabled
+          >
+        </div>
+        
+        <div class="input-group">
+          <span class="input-group-addon" >Nome</span>
+          <input class="form-control" type="text" name="nome" disabled value="<%=aluno.nome%>"/>
+        </div>
+  </div>
+  <input class="btn btn-danger" type="submit" value="Excluir" />
+  <a class="btn btn-default voltar" href="/">Cancelar</a>
 </form>
-<a href="/">Cancelar</a>
+
+  
+

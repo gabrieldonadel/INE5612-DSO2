@@ -3,77 +3,91 @@
   <%=err %>
 </div>
 <% } %>
-<h1>Registrar Disciplina</h1>
+<h1 class="title"><%=(subject.codigo ? 'Alterar Disciplina' : 'Registrar Disciplina')%></h1>
 <form
   method="post"
   action="/disciplina/register/<%=(subject.codigo ? subject.codigo : '')%>"
 >
-  Código: <% if(!subject.codigo){ %>
-  <input type="text" name="codigo" />
-  <%}else{%><%=subject.codigo%><%}%><br />
-  Nome:
-  <input
-    type="text"
-    name="nome"
-    value="<%=(subject.nome ? subject.nome : '')%>"
-  /><br />
-
-  <div class="semana">
-    <div class="dia-descricao">
-      <label>18h00</label>
-      <label>19h00</label>
-      <label>20h00</label>
-      <label>21h00</label>
-    </div>
-    <div class="dia">
-      <div class="option">
-        <label for="segunda">Segunda feira</label>
-      </div>
-      <% (subject.horario[0] || []).forEach((hora, index) => { %> <input
-      type="checkbox" value=<%=index+1%> name="segundaValues[]" <%=hora ?
-      "checked" : null %> /> <%}) %>
-    </div>
-
-    <div class="dia">
-      <div class="option">
-        <label for="terca">Terça feira</label>
-      </div>
-      <% (subject.horario[1] || []).forEach((hora, index) => { %> <input
-      type="checkbox" class="horario" value="<%=index+1%>" name="tercaValues[]"
-      <%=hora ? "checked" : null %> /> <%}) %>
-    </div>
-
-    <div class="dia">
-      <div class="option">
-        <label for="quarta">Quarta feira</label>
-      </div>
-
-      <% (subject.horario[2] || []).forEach((hora, index) => { %> <input
-      type="checkbox" class="horario" value="<%=index+1%>" name="quartaValues[]"
-      <%=hora ? "checked" : null %> /> <%}) %>
-    </div>
-
-    <div class="dia">
-      <div class="option">
-        <label for="quinta">Quinta feira</label>
-      </div>
-
-      <% (subject.horario[3] || []).forEach((hora, index) => { %> <input
-      type="checkbox" class="horario" value="<%=index+1%>" name="quintaValues[]"
-      <%=hora ? "checked" : null %> /> <%}) %>
-    </div>
-
-    <div class="dia">
-      <div class="option">
-        <label for="sexta">Sexta feira</label>
-      </div>
-
-      <% (subject.horario[4] || []).forEach((hora, index) => { %> <input
-      type="checkbox" class="horario" value="<%=index+1%>" name="sextaValues[]"
-      <%=hora ? "checked" : null %> /> <%}) %>
-    </div>
+<div class="register-disciplina">
+  <div class="fields">
+      <div class="input-group">
+          <span class="input-group-addon"> Código %></span>
+          <input 
+            class="form-control" 
+            type="text" 
+            name="codigo" 
+            value="<%=(subject.codigo ? subject.codigo : '')%>"
+            <%= subject.codigo ? "disabled" : ""%>
+          >
+        </div>
+        
+        <div class="input-group">
+          <span class="input-group-addon" >Nome</span>
+          <input class="form-control" type="text" name="nome" value="<%=(subject.nome ? subject.nome : '')%>"/>
+        </div>
+  </div>
+  <div class="calendar">
+      <div class="semana">
+          <div class="dia-descricao">
+            <label>18h00</label>
+            <label>19h00</label>
+            <label>20h00</label>
+            <label>21h00</label>
+          </div>
+          <div class="dia">
+            <div class="option">
+              <label for="segunda">Segunda feira</label>
+            </div>
+            <% (subject.horario[0] || []).forEach((hora, index) => { %> <input
+            type="checkbox" value=<%=index+1%> name="segundaValues[]" <%=hora ?
+            "checked" : null %> /> <%}) %>
+          </div>
+      
+          <div class="dia">
+            <div class="option">
+              <label for="terca">Terça feira</label>
+            </div>
+            <% (subject.horario[1] || []).forEach((hora, index) => { %> <input
+            type="checkbox" class="horario" value="<%=index+1%>" name="tercaValues[]"
+            <%=hora ? "checked" : null %> /> <%}) %>
+          </div>
+      
+          <div class="dia">
+            <div class="option">
+              <label for="quarta">Quarta feira</label>
+            </div>
+      
+            <% (subject.horario[2] || []).forEach((hora, index) => { %> <input
+            type="checkbox" class="horario" value="<%=index+1%>" name="quartaValues[]"
+            <%=hora ? "checked" : null %> /> <%}) %>
+          </div>
+      
+          <div class="dia">
+            <div class="option">
+              <label for="quinta">Quinta feira</label>
+            </div>
+      
+            <% (subject.horario[3] || []).forEach((hora, index) => { %> <input
+            type="checkbox" class="horario" value="<%=index+1%>" name="quintaValues[]"
+            <%=hora ? "checked" : null %> /> <%}) %>
+          </div>
+      
+          <div class="dia">
+            <div class="option">
+              <label for="sexta">Sexta feira</label>
+            </div>
+      
+            <% (subject.horario[4] || []).forEach((hora, index) => { %> <input
+            type="checkbox" class="horario" value="<%=index+1%>" name="sextaValues[]"
+            <%=hora ? "checked" : null %> /> <%}) %>
+          </div>
+        </div>
+        <div class="buttons">
+          <input class="btn btn-success" type="submit" value="Enviar" />
+          <a class="btn btn-default voltar" role="button" href="/">Voltar</a>
+        </div>
+      
+      </form>
   </div>
 
-  <input type="submit" value="Enviar" />
-</form>
-<a href="/">Voltar</a>
+</div>

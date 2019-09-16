@@ -1,8 +1,18 @@
 <%- contentFor('body') %>
 <h1>Você realmente deseja excluir esta disciplina?</h1>
 <form method="post" action="/disciplina/delete/<%=subject.codigo %>">
-  Codigo: <%=subject.codigo %><br />
-  Nome: <%=subject.nome %><br />
-  <input type="submit" value="Excluir" />
+  <div class="fields">
+      <div class="input-group">
+          <span class="input-group-addon"> Código %></span>
+          <input class="form-control" type="text" name="codigo" disabled value="<%= subject.codigo%>">
+        </div>
+        
+        <div class="input-group">
+          <span class="input-group-addon" >Nome</span>
+          <input class="form-control" type="text" name="nome" disabled value="<%=subject.nome%>"/>
+        </div>
+  </div>
+  <input class="btn btn-danger" type="submit" value="Excluir" />
+  <a class="btn btn-default voltar" href="/">Cancelar</a>
 </form>
-<a href="/">Cancelar</a>
+
