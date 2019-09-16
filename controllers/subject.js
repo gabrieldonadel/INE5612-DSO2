@@ -6,7 +6,8 @@ const dbName = "ine5612";
 router.get("/register", (req, res) => {
   res.render("registerDisciplina", {
     title: "Registrar disciplina",
-    subject: {}
+    subject: {},
+    err: null
   });
 });
 
@@ -20,19 +21,64 @@ router.get("/register/:codigo", (req, res) => {
       else {
         res.render("registerDisciplina", {
           title: "Alterar disciplina",
-          subject
+          subject,
+          err: null
         });
       }
     });
 });
 
 router.post("/register/:codigo?", function(req, res) {
+  var codigo = req.body.codigo || req.params.codigo;
+  var nome = req.body.nome;
+  var duracao = req.body.duracao;
+  var inicio = req.body.inicio;
+
+  const {
+    segunda,
+    segundaValues,
+    terca,
+    tercaValues,
+    quarta,
+    quartaValues,
+    quinta,
+    quintaValues,
+    sexta,
+    sextaValues
+  } = req.body;
+  //verifica quantos creditos tem
+  let counter = 0;
+  if (segunda && segundaValues) {
+    counter += segundaValues.length;
+  }
+  if (terca && tercaValues) {
+    counter += tercaValues.length;
+  }
+  if (quarta && quartaValues) {
+    counter += quartaValues.length;
+  }
+  if (quinta && quintaValues) {
+    counter += quintaValues.length;
+  }
+  if (sexta && sextaValues) {
+    counter += sextaValues.length;
+  }
+
+  console.log(counter);
+
+  if (counter > 4) {
+    res.render("registerDisciplina", {
+      title: "Alterar disciplina",
+      subject: { nome, codigo, duracao },
+      err:
+        "Erro! Cada disciplina pode ter no máximo 4 horários durante a semana"
+    });
+    return;
+  }
+
   if (!req.params.codigo) {
-    var codigo = req.body.codigo;
-    var nome = req.body.nome;
-    var duracao = req.body.duracao;
-    var inicio = req.body.inicio;
     console.log(codigo, nome, duracao, inicio, req.body);
+
     if (!codigo || !nome) {
       console.log("aqui");
       res.sendStatus(400);

@@ -1,100 +1,91 @@
-<%- contentFor('body') %> <% if(subject.codigo){ %>
-<h1>Alterar Disciplina</h1>
-<form method="post" action="/disciplina/register<%=subject.codigo%>">
-  Código: <%=subject.codigo%><br />
-  Nome: <input type="text" value="<%=subject.nome%>" name="nome" /><br />
-  <input type="checkbox" id="scales" name="scales" />
-  <label for="scales">Segunda feira</label>
-  <input type="checkbox" id="scales" name="scales" />
-  <label for="scales">Terça feira</label>
-  <input type="checkbox" id="scales" name="scales" />
-  <label for="scales">Quarta feira</label>
-  <input type="checkbox" id="scales" name="scales" />
-  <label for="scales">Quinta feira</label>
-  <input type="checkbox" id="scales" name="scales" />
-  <label for="scales">Sexta feira</label>
-  
-  <input type="submit" value="Enviar" />
-</form>
-<% }else{ %>
+<%- contentFor('body') %> <% if (err) { %>
+<div class="alert alert-danger">
+  <%=err %>
+</div>
+<% } %>
 <h1>Registrar Disciplina</h1>
 <form
   method="post"
-  action="/disciplina/register<%=(subject.codigo ? subject.codigo : '')%>"
+  action="/disciplina/register/<%=(subject.codigo ? subject.codigo : '')%>"
 >
-  Código: <input type="text" name="codigo" /><br />
-  Nome: <input type="text" name="nome" /><br />
-  
+  Código: <% if(!subject.codigo){ %>
+  <input type="text" name="codigo" />
+  <%}else{%><%=subject.codigo%><%}%><br />
+  Nome:
+  <input
+    type="text"
+    name="nome"
+    value="<%=(subject.nome ? subject.nome : '')%>"
+  /><br />
+
   <div class="semana">
     <div class="dia-descricao">
-        <label >18h00</label>
-        <label >19h00</label>
-        <label >20h00</label>
-        <label >21h00</label>
-
+      <label>18h00</label>
+      <label>19h00</label>
+      <label>20h00</label>
+      <label>21h00</label>
     </div>
-      <div class="dia">
-          <div class="option">
-              <label for="scales">Segunda feira</label>
-              <input type="checkbox" id="scales" name="scales" />
-          </div>
-         
-          <input type="checkbox" id="scales" name="scales" /> 
-          <input type="checkbox" id="scales" name="scales" /> 
-          <input type="checkbox" id="scales" name="scales" />
-          <input type="checkbox" id="scales" name="scales" /> 
+    <div class="dia">
+      <div class="option">
+        <label for="segunda">Segunda feira</label>
+        <input type="checkbox" id="segunda" name="segunda" />
       </div>
 
-      <div class="dia">
-          <div class="option">
-              <label for="scales">Terça feira</label>
-              <input type="checkbox" id="scales" name="scales" />
-          </div>
-         
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
-          <input class="horario" type="checkbox" id="scales" name="scales" />
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
-      </div>
-      
-      <div class="dia">
-          <div class="option">
-              <label for="scales">Quarta feira</label>
-              <input type="checkbox" id="scales" name="scales" />
-          </div>
-         
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
-          <input class="horario" type="checkbox" id="scales" name="scales" />
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
+      <input type="checkbox" value="1" name="segundaValues[]" />
+      <input type="checkbox" value="2" name="segundaValues[]" />
+      <input type="checkbox" value="3" name="segundaValues[]" />
+      <input type="checkbox" value="4" name="segundaValues[]" />
+    </div>
+
+    <div class="dia">
+      <div class="option">
+        <label for="terca">Terça feira</label>
+        <input type="checkbox" id="terca" name="terca" />
       </div>
 
-      <div class="dia">
-          <div class="option">
-              <label for="scales">Quinta feira</label>
-              <input type="checkbox" id="scales" name="scales" />
-          </div>
-         
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
-          <input class="horario" type="checkbox" id="scales" name="scales" />
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
+      <input class="horario" type="checkbox" value="1" name="tercaValues[]" />
+      <input class="horario" type="checkbox" value="1" name="tercaValues[]" />
+      <input class="horario" type="checkbox" value="1" name="tercaValues[]" />
+      <input class="horario" type="checkbox" value="1" name="tercaValues[]" />
+    </div>
+
+    <div class="dia">
+      <div class="option">
+        <label for="quarta">Quarta feira</label>
+        <input type="checkbox" id="quarta" name="quarta" />
       </div>
 
-      <div class="dia">
-          <div class="option">
-              <label for="scales">Sexta feira</label>
-              <input type="checkbox" id="scales" name="scales" />
-          </div>
+      <input class="horario" type="checkbox" value="1" name="quartaValues[]" />
+      <input class="horario" type="checkbox" value="2" name="quartaValues[]" />
+      <input class="horario" type="checkbox" value="3" name="quartaValues[]" />
+      <input class="horario" type="checkbox" value="4" name="quartaValues[]" />
+    </div>
 
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
-          <input class="horario" type="checkbox" id="scales" name="scales" />
-          <input class="horario" type="checkbox" id="scales" name="scales" /> 
+    <div class="dia">
+      <div class="option">
+        <label for="quinta">Quinta feira</label>
+        <input type="checkbox" name="quinta" />
       </div>
 
+      <input class="horario" type="checkbox" value="1" name="quintaValues[]" />
+      <input class="horario" type="checkbox" value="2" name="quintaValues[]" />
+      <input class="horario" type="checkbox" value="3" name="quintaValues[]" />
+      <input class="horario" type="checkbox" value="4" name="quintaValues[]" />
+    </div>
+
+    <div class="dia">
+      <div class="option">
+        <label for="sexta">Sexta feira</label>
+        <input type="checkbox" id="sexta" name="sexta" />
+      </div>
+
+      <input class="horario" type="checkbox" value="1" name="sextaValues[]" />
+      <input class="horario" type="checkbox" value="2" name="sextaValues[]" />
+      <input class="horario" type="checkbox" value="3" name="sextaValues[]" />
+      <input class="horario" type="checkbox" value="4" name="sextaValues[]" />
+    </div>
   </div>
 
+  <input type="submit" value="Enviar" />
 </form>
-<% } %>
 <a href="/">Voltar</a>
