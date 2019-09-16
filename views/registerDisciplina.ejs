@@ -28,61 +28,49 @@
     <div class="dia">
       <div class="option">
         <label for="segunda">Segunda feira</label>
-        <input type="checkbox" id="segunda" name="segunda" />
       </div>
-
-      <input type="checkbox" value="1" name="segundaValues[]" />
-      <input type="checkbox" value="2" name="segundaValues[]" />
-      <input type="checkbox" value="3" name="segundaValues[]" />
-      <input type="checkbox" value="4" name="segundaValues[]" />
+      <% (subject.horario[0] || []).forEach((hora, index) => { %> <input
+      type="checkbox" value=<%=index+1%> name="segundaValues[]" <%=hora ?
+      "checked" : null %> /> <%}) %>
     </div>
 
     <div class="dia">
       <div class="option">
         <label for="terca">Terça feira</label>
-        <input type="checkbox" id="terca" name="terca" />
       </div>
-
-      <input class="horario" type="checkbox" value="1" name="tercaValues[]" />
-      <input class="horario" type="checkbox" value="1" name="tercaValues[]" />
-      <input class="horario" type="checkbox" value="1" name="tercaValues[]" />
-      <input class="horario" type="checkbox" value="1" name="tercaValues[]" />
+      <% (subject.horario[1] || []).forEach((hora, index) => { %> <input
+      type="checkbox" class="horario" value="<%=index+1%>" name="tercaValues[]"
+      <%=hora ? "checked" : null %> /> <%}) %>
     </div>
 
     <div class="dia">
       <div class="option">
         <label for="quarta">Quarta feira</label>
-        <input type="checkbox" id="quarta" name="quarta" />
       </div>
 
-      <input class="horario" type="checkbox" value="1" name="quartaValues[]" />
-      <input class="horario" type="checkbox" value="2" name="quartaValues[]" />
-      <input class="horario" type="checkbox" value="3" name="quartaValues[]" />
-      <input class="horario" type="checkbox" value="4" name="quartaValues[]" />
+      <% (subject.horario[2] || []).forEach((hora, index) => { %> <input
+      type="checkbox" class="horario" value="<%=index+1%>" name="quartaValues[]"
+      <%=hora ? "checked" : null %> /> <%}) %>
     </div>
 
     <div class="dia">
       <div class="option">
         <label for="quinta">Quinta feira</label>
-        <input type="checkbox" name="quinta" />
       </div>
 
-      <input class="horario" type="checkbox" value="1" name="quintaValues[]" />
-      <input class="horario" type="checkbox" value="2" name="quintaValues[]" />
-      <input class="horario" type="checkbox" value="3" name="quintaValues[]" />
-      <input class="horario" type="checkbox" value="4" name="quintaValues[]" />
+      <% (subject.horario[3] || []).forEach((hora, index) => { %> <input
+      type="checkbox" class="horario" value="<%=index+1%>" name="quintaValues[]"
+      <%=hora ? "checked" : null %> /> <%}) %>
     </div>
 
     <div class="dia">
       <div class="option">
         <label for="sexta">Sexta feira</label>
-        <input type="checkbox" id="sexta" name="sexta" />
       </div>
 
-      <input class="horario" type="checkbox" value="1" name="sextaValues[]" />
-      <input class="horario" type="checkbox" value="2" name="sextaValues[]" />
-      <input class="horario" type="checkbox" value="3" name="sextaValues[]" />
-      <input class="horario" type="checkbox" value="4" name="sextaValues[]" />
+      <% (subject.horario[4] || []).forEach((hora, index) => { %> <input
+      type="checkbox" class="horario" value="<%=index+1%>" name="sextaValues[]"
+      <%=hora ? "checked" : null %> /> <%}) %>
     </div>
   </div>
 

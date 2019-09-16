@@ -1,0 +1,8 @@
+<%- contentFor('body') %>
+<h1>Você realmente deseja excluir esta disciplina?</h1>
+<form method="post" action="/disciplina/delete/<%=subject.codigo %>">
+  Codigo: <%=subject.codigo %><br />
+  Nome: <%=subject.nome %><br />
+  <input type="submit" value="Excluir" />
+</form>
+<a href="/">Cancelar</a>

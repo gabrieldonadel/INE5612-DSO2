@@ -98,7 +98,6 @@ function newStudent(nome, matricula, disciplinas, res) {
         disciplinas
       },
       (err, result) => {
-        console.log("update aaaa", err);
         if (!err) {
           res.redirect("/");
         }
@@ -106,27 +105,89 @@ function newStudent(nome, matricula, disciplinas, res) {
           .db(dbName)
           .collection("disciplinas")
           .find({})
-          .toArray((err, subjects) => {
-            if (err && err.code == 11000) {
+          .toArray((error, subjects) => {
+            if (!!err && parseInt(err.code + "") === 11000) {
               res.render("register", {
                 title: "Alterar aluno",
                 aluno: { nome: nome, matricula: "" },
-                err: "Um aluno com essa matricula já foi cadastrado",
+                err: "Erro! Um aluno com essa matricula já foi cadastrado",
                 subjects
               });
+              return;
             } else {
               res.render("register", {
                 title: "Alterar aluno",
-                aluno: { nome: nome, matricula: matricula },
-                err: "Erro! Tente novamente"
+                aluno: { nome: nome, matricula: "" },
+                err: "Erro! Tente novamente",
+                subjects
               });
+              return;
             }
           });
       }
     );
 }
 
-function updateStudent(nome, matricula, disciplinas, res) {
+function compareSubjects(a, b) {
+  let conflict = false;
+  for (let i = 0; i < 5; i++) {
+    //cada dia da semana
+    for (let j = 0; j < 4; j++) {
+      //cada aula
+      if (a.horario[i][j] == true && b.horario[i][j]) {
+        conflict = true;
+      }
+    }
+  }
+  return conflict;
+}
+
+async function updateStudent(nome, matricula, disciplinasMatriculadas, res) {
+  const subjects = await getSubjects();
+  const mappedSubjects = subjects.map(subject => {
+    let add = false;
+    disciplinasMatriculadas.forEach(e => {
+      if (e == subject.codigo) {
+        add = true;
+      }
+    });
+    if (add) {
+      return subject;
+    }
+    return null;
+  });
+
+  const filteredSubjects = mappedSubjects.filter(subj => subj);
+
+  let checkSubkects = [...filteredSubjects];
+
+  let conflictMessage = "";
+  let conflict = false;
+
+  for (let i = 0; i < checkSubkects.length; i++) {
+    for (let j = i + 1; j < checkSubkects.length; j++) {
+      //compara uma disciplina com a outra
+      let conf = compareSubjects(checkSubkects[i], checkSubkects[j]);
+      if (conf) {
+        conflictMessage += ` ${checkSubkects[i].codigo} e ${checkSubkects[j].codigo}`;
+        conflict = true;
+      }
+      console.log("teve conflito? ", conflict);
+    }
+  }
+
+  if (conflict) {
+    res.render("register", {
+      title: "Alterar aluno",
+      aluno: { nome: nome, matricula, disciplinas: disciplinasMatriculadas },
+      err:
+        "Choque de horario detectado! as seguintes disciplinas estâo em conflito:" +
+        conflictMessage,
+      subjects
+    });
+    return;
+  }
+
   client
     .db(dbName)
     .collection("alunos")
@@ -135,7 +196,7 @@ function updateStudent(nome, matricula, disciplinas, res) {
         matricula
       },
       {
-        $set: { nome, disciplinas }
+        $set: { nome, disciplinas: disciplinasMatriculadas }
       },
       function(err, result) {
         if (err) {
@@ -147,7 +208,7 @@ function updateStudent(nome, matricula, disciplinas, res) {
     );
 }
 
-router.post("/register/:matricula?", function(req, res) {
+router.post("/register/:matricula?", async function(req, res) {
   console.log(req.body);
 
   const matricula = req.body.matricula || req.params.matricula;
@@ -173,7 +234,7 @@ router.post("/register/:matricula?", function(req, res) {
     console.log(matricula);
     console.log("update...", matricula);
 
-    updateStudent(nome, matricula, disciplinas, res);
+    const result = await updateStudent(nome, matricula, disciplinas, res);
   }
 });
 

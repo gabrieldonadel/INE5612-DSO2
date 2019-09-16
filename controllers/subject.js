@@ -6,7 +6,15 @@ const dbName = "ine5612";
 router.get("/register", (req, res) => {
   res.render("registerDisciplina", {
     title: "Registrar disciplina",
-    subject: {},
+    subject: {
+      horario: [
+        new Array(4).fill(false),
+        new Array(4).fill(false),
+        new Array(4).fill(false),
+        new Array(4).fill(false),
+        new Array(4).fill(false)
+      ]
+    },
     err: null
   });
 });
@@ -19,6 +27,7 @@ router.get("/register/:codigo", (req, res) => {
     .then(subject => {
       if (!subject) res.sendStatus(404);
       else {
+        console.log(subject);
         res.render("registerDisciplina", {
           title: "Alterar disciplina",
           subject,
@@ -34,46 +43,70 @@ router.post("/register/:codigo?", function(req, res) {
   var duracao = req.body.duracao;
   var inicio = req.body.inicio;
 
+  var horario = [
+    new Array(4).fill(false),
+    new Array(4).fill(false),
+    new Array(4).fill(false),
+    new Array(4).fill(false),
+    new Array(4).fill(false)
+  ];
+
   const {
-    segunda,
     segundaValues,
-    terca,
     tercaValues,
-    quarta,
     quartaValues,
-    quinta,
     quintaValues,
-    sexta,
     sextaValues
   } = req.body;
   //verifica quantos creditos tem
   let counter = 0;
-  if (segunda && segundaValues) {
+  if (segundaValues) {
     counter += segundaValues.length;
+    (segundaValues || []).forEach(value => {
+      horario[0][parseInt(value) - 1] = true;
+    });
   }
-  if (terca && tercaValues) {
+  if (tercaValues) {
     counter += tercaValues.length;
+    (tercaValues || []).forEach(value => {
+      horario[1][parseInt(value) - 1] = true;
+    });
   }
-  if (quarta && quartaValues) {
+  if (quartaValues) {
     counter += quartaValues.length;
+    (quartaValues || []).forEach(value => {
+      horario[2][parseInt(value) - 1] = true;
+    });
   }
-  if (quinta && quintaValues) {
+  if (quintaValues) {
     counter += quintaValues.length;
+    (quintaValues || []).forEach(value => {
+      horario[3][parseInt(value) - 1] = true;
+    });
   }
-  if (sexta && sextaValues) {
+  if (sextaValues) {
     counter += sextaValues.length;
+    (sextaValues || []).forEach(value => {
+      horario[4][parseInt(value) - 1] = true;
+    });
   }
 
-  console.log(counter);
+  console.log(counter, horario);
 
   if (counter > 4) {
     res.render("registerDisciplina", {
       title: "Alterar disciplina",
-      subject: { nome, codigo, duracao },
+      subject: { nome, codigo, duracao, horario },
       err:
         "Erro! Cada disciplina pode ter no máximo 4 horários durante a semana"
     });
     return;
+  } else if (counter == 0) {
+    res.render("registerDisciplina", {
+      title: "Alterar disciplina",
+      subject: { nome, codigo: "", duracao, horario },
+      err: "Erro! Selecione os horarios para a disciplina"
+    });
   }
 
   if (!req.params.codigo) {
@@ -81,22 +114,43 @@ router.post("/register/:codigo?", function(req, res) {
 
     if (!codigo || !nome) {
       console.log("aqui");
-      res.sendStatus(400);
+      res.render("registerDisciplina", {
+        title: "Alterar disciplina",
+        subject: { nome, codigo: "", duracao, horario },
+        err: "Erro! Preencha todos os campos"
+      });
       return;
     }
 
     client
       .db(dbName)
       .collection("disciplinas")
-      .insertOne({
-        nome,
-        codigo,
-        horario: { horario_inicio: inicio, duracao_aula: duracao, dia: 2 }
-      });
-    res.redirect("/");
+      .insertOne(
+        {
+          nome,
+          codigo,
+          horario: horario //{ horario_inicio: inicio, duracao_aula: duracao, dia: 2 }
+        },
+        (err, result) => {
+          if (!err) {
+            res.redirect("/");
+          }
+          if (err && err.code == 11000) {
+            res.render("registerDisciplina", {
+              title: "Alterar disciplina",
+              subject: { nome, codigo: "", duracao, horario },
+              err: "Uma disciplina com este codigo já foi cadastrada"
+            });
+          } else {
+            res.render("registerDisciplina", {
+              title: "Alterar disciplina",
+              subject: { nome, codigo: "", duracao, horario },
+              err: "Erro! Tente novamente"
+            });
+          }
+        }
+      );
   } else {
-    var nome = req.body.nome;
-    var matricula = req.params.matricula;
     if (!nome) {
       //Se não recebemos um nome, retorna erro 400
       res.sendStatus(400);
@@ -106,15 +160,16 @@ router.post("/register/:codigo?", function(req, res) {
 
     //Realiza o UPDATE no banco.
     console.log("update...");
+    console.log(horario);
     client
       .db(dbName)
-      .collection("alunos")
+      .collection("disciplinas")
       .updateOne(
         {
-          matricula: matricula
+          codigo
         },
         {
-          $set: { nome: nome }
+          $set: { nome, horario }
         },
         function(err, result) {
           if (err) {
@@ -126,6 +181,31 @@ router.post("/register/:codigo?", function(req, res) {
         }
       );
   }
+});
+
+router.get("/delete/:codigo", (req, res) => {
+  client
+    .db(dbName)
+    .collection("disciplinas")
+    .findOne({ codigo: req.params.codigo })
+    .then(subject => {
+      if (!subject) {
+        res.sendStatus(404);
+      } else {
+        res.render("deleteSubject", {
+          title: "Excluir aluno",
+          subject
+        });
+      }
+    });
+});
+
+router.post("/delete/:codigo", function(req, res) {
+  client
+    .db(dbName)
+    .collection("disciplinas")
+    .deleteOne({ codigo: req.params.codigo });
+  res.redirect("/");
 });
 
 module.exports = router;
