@@ -1,4 +1,8 @@
-<%- contentFor('body') %>
+<%- contentFor('body') %> <% if (err) { %>
+<div class="alert alert-danger">
+  <%=err %>
+</div>
+<% } %>
 <h1>Registro</h1>
 <form
   method="post"

@@ -10,7 +10,8 @@ router.get("/register", function(req, res) {
   //a view.
   res.render("register", {
     title: "Novo aluno",
-    aluno: {}
+    aluno: {},
+    err: null
   });
 });
 
@@ -29,7 +30,8 @@ router.get("/register/:matricula", function(req, res) {
       else
         res.render("register", {
           title: "Alterar aluno",
-          aluno: aluno
+          aluno: aluno,
+          err: null
         });
     });
 });
@@ -57,8 +59,24 @@ router.post("/register/:matricula?", function(req, res) {
     client
       .db(dbName)
       .collection("alunos")
-      .insertOne({ nome: nome, matricula: matricula });
-    res.redirect("/");
+      .insertOne({ nome: nome, matricula: matricula }, (err, result) => {
+        if (!err) {
+          res.redirect("/");
+        }
+        if (err.code == 11000) {
+          res.render("register", {
+            title: "Alterar aluno",
+            aluno: { nome: nome, matricula: "" },
+            err: "Um aluno com essa matricula já foi cadastrado"
+          });
+        } else {
+          res.render("register", {
+            title: "Alterar aluno",
+            aluno: { nome: nome, matricula: matricula },
+            err: "Erro! Tente novamente"
+          });
+        }
+      });
   } else {
     var nome = req.body.nome;
     var matricula = req.params.matricula;
@@ -87,7 +105,6 @@ router.post("/register/:matricula?", function(req, res) {
             throw err;
           }
           res.redirect("/");
-          return;
         }
       );
   }
